@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "認証コード通知",
+  "version": "1.0",
+  "description": "TOTPの認証コードを通知で受け取る",
+  "permissions": [
+    "notifications",
+    "alarms",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
