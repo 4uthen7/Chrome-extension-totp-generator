@@ -76,11 +76,17 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   }
 });
 
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.set({
-    accounts: [],
-    enabled: false,
-    darkMode: false,
-    interval: 30
-  });
+chrome.runtime.onInstalled.addListener(async () => {
+  const data = await chrome.storage.local.get(['accounts', 'enabled', 'darkMode', 'interval']);
+  const initData = {};
+  
+  if (data.accounts === undefined) initData.accounts = [];
+  if (data.enabled === undefined) initData.enabled = false;
+  if (data.darkMode === undefined) initData.darkMode = false;
+  if (data.interval === undefined) initData.interval = 30;
+  
+  if (Object.keys(initData).length > 0) {
+    await chrome.storage.local.set(initData);
+  }
+});
 });
