@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TOTP Runner — 設定</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <header class="page-head">
+    <img src="../../icons/icon48.png" alt="" width="28" height="28">
+    <div>
+      <h1>TOTP Runner</h1>
+      <p class="sub">入力欄での提案・通知・暗号化の設定</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>提案</h2>
+
+      <label class="switch-row">
+        <span>
+          <strong>TOTP入力欄で候補を出す</strong>
+          <small>フォーカスしたときだけ、このサイトに登録したアカウントを提案します。</small>
+        </span>
+        <input type="checkbox" id="setSuggestions">
+      </label>
+
+      <label class="switch-row">
+        <span>
+          <strong>候補が1件なら自動入力</strong>
+          <small>紐付けたアカウントが1つだけのとき、確認なしで入力します。</small>
+        </span>
+        <input type="checkbox" id="setAutoFill">
+      </label>
+
+      <label class="switch-row">
+        <span>
+          <strong>コードを伏せ字にする</strong>
+          <small>ポップアップの一覧でコードを隠します。クリックで表示・コピーできます。</small>
+        </span>
+        <input type="checkbox" id="setMask">
+      </label>
+
+      <div class="field">
+        <label for="setExcluded">このサイトでは出さない</label>
+        <textarea id="setExcluded" rows="3" placeholder="bank.example.com&#10;mail.example.com"></textarea>
+        <small>1行に1ホスト名。ここに書いたサイトでは提案も自動入力も行いません。</small>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>通知</h2>
+
+      <label class="switch-row">
+        <span>
+          <strong>コードを通知に表示</strong>
+          <small>指定間隔で1つの通知を更新します（通知は積み上がりません）。</small>
+        </span>
+        <input type="checkbox" id="setNotify">
+      </label>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="setInterval">更新間隔（分）</label>
+          <input type="number" id="setInterval" min="1" max="240" step="1">
+        </div>
+        <div class="field">
+          <label for="setNoticeCodes">内容</label>
+          <select id="setNoticeCodes">
+            <option value="codes">コードを含める</option>
+            <option value="labels">アカウント名のみ</option>
+          </select>
+        </div>
+      </div>
+      <small>ロック中は通知しません。</small>
+    </section>
+
+    <section class="card">
+      <h2>ロック</h2>
+
+      <div id="lockOff" class="lock-box">
+        <p>
+          パスフレーズを設定すると、保存されたシークレットを AES-GCM で暗号化します。
+          ブラウザを閉じる・一定時間操作しない、のいずれかで自動的にロックされます。
+        </p>
+        <div class="field-row">
+          <div class="field">
+            <label for="newPass">パスフレーズ（8文字以上）</label>
+            <input type="password" id="newPass" autocomplete="new-password">
+          </div>
+          <div class="field">
+            <label for="newPass2">確認</label>
+            <input type="password" id="newPass2" autocomplete="new-password">
+          </div>
+        </div>
+        <div class="actions">
+          <button id="enableLock" class="primary">ロックを設定</button>
+        </div>
+        <p class="warning">パスフレーズを忘れると、保存済みのコードは復元できません。</p>
+      </div>
+
+      <div id="lockOn" class="lock-box hidden">
+        <div class="status">
+          <span id="lockStatus">ロック設定済み</span>
+          <span class="badge" id="lockBadge">解除中</span>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="idleMinutes">自動ロック（無操作・分）</label>
+            <input type="number" id="idleMinutes" min="1" max="240" step="1">
+          </div>
+        </div>
+        <div class="actions">
+          <button id="lockNow" class="ghost">今すぐロック</button>
+          <button id="disableLock" class="ghost danger">ロックを解除して削除</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>バックアップ</h2>
+      <p class="muted">シークレットを含みます。取り扱い注意。</p>
+      <div class="field">
+        <label for="backupPass">バックアップのパスフレーズ（任意）</label>
+        <input type="password" id="backupPass" placeholder="空欄なら平文 JSON" autocomplete="new-password">
+      </div>
+      <div class="actions">
+        <button id="exportBtn" class="primary">エクスポート</button>
+        <button id="importBtn" class="ghost">インポート</button>
+        <input type="file" id="importFile" accept="application/json,.json" hidden>
+      </div>
+    </section>
+
+    <section class="card danger-zone">
+      <h2>データ</h2>
+      <p class="muted" id="stats">読み込み中…</p>
+      <div class="actions">
+        <button id="wipeBtn" class="ghost danger">すべてのアカウントを削除</button>
+      </div>
+    </section>
+
+    <footer class="page-foot">
+      <span id="version"></span>
+      <button id="shortcutsBtn" class="link">キーボードショートカット</button>
+    </footer>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+  <script type="module" src="options.js"></script>
+</body>
+</html>

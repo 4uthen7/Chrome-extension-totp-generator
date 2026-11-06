@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TOTP Runner — インポート</title>
+  <link rel="stylesheet" href="import.css">
+</head>
+<body>
+  <header class="page-head">
+    <img src="../../icons/icon48.png" alt="" width="28" height="28">
+    <div>
+      <h1>インポート</h1>
+      <p class="sub">QR コード・otpauth:// URI・Base32 シークレットから登録します</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="tabs" role="tablist">
+      <button id="tabPaste" class="tab active" role="tab">ペースト</button>
+      <button id="tabImage" class="tab" role="tab">画像</button>
+      <button id="tabCamera" class="tab" role="tab">カメラ</button>
+    </div>
+
+    <section id="panelPaste" class="card">
+      <label for="pasteArea">otpauth:// URI を貼り付け</label>
+      <textarea id="pasteArea" rows="7" spellcheck="false" placeholder="otpauth://totp/GitHub:takah?secret=JBSWY3DPEHPK3PXP&amp;issuer=GitHub&#10;otpauth-migration://offline?data=..."></textarea>
+      <div class="actions">
+        <button id="parseBtn" class="primary">解析</button>
+        <button id="demoBtn" class="ghost">サンプルを入れる</button>
+      </div>
+      <p class="muted">
+        複数行まとめて貼れます。Google Authenticator の「アカウントを移行」で出る
+        <code>otpauth-migration://</code> もそのまま読めます。
+      </p>
+    </section>
+
+    <section id="panelImage" class="card hidden">
+      <label for="imageFile">QR コードの画像を選択</label>
+      <input type="file" id="imageFile" accept="image/*">
+      <p class="muted">スクリーンショットや、他の端末で撮った QR 画像をそのまま使えます。</p>
+      <canvas id="imageCanvas" class="hidden"></canvas>
+    </section>
+
+    <section id="panelCamera" class="card hidden">
+      <div class="camera-wrap">
+        <video id="camera" playsinline muted></video>
+        <div id="cameraHint" class="camera-hint">カメラを起動しています…</div>
+      </div>
+      <div class="actions">
+        <button id="cameraStart" class="primary">カメラを起動</button>
+        <button id="cameraStop" class="ghost">停止</button>
+      </div>
+      <p class="muted">QR コードを枠内に収めると自動で読み取ります。</p>
+    </section>
+
+    <section id="resultsCard" class="card hidden">
+      <div class="results-head">
+        <h2>読み取った内容</h2>
+        <label class="select-all"><input type="checkbox" id="selectAll" checked> すべて選択</label>
+      </div>
+      <div id="results" class="results"></div>
+      <div class="actions">
+        <button id="importBtn" class="primary">選択したものを追加</button>
+      </div>
+    </section>
+
+    <p id="status" class="status"></p>
+  </main>
+
+  <script src="../vendor/jsqr.js"></script>
+  <script type="module" src="import.js"></script>
+</body>
+</html>

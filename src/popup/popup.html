@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TOTP Runner</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <img src="../../icons/icon32.png" alt="" width="20" height="20">
+      <span>TOTP Runner</span>
+    </div>
+    <div class="top-actions">
+      <button id="lockBtn" class="icon-btn" title="ロック" aria-label="ロック"></button>
+      <button id="settingsBtn" class="icon-btn" title="設定" aria-label="設定">⚙</button>
+    </div>
+  </header>
+
+  <div id="lockBanner" class="banner hidden">
+    <span>ロック中 — コードは非表示です</span>
+    <button id="unlockBtn" class="link-btn">解除</button>
+  </div>
+
+  <div class="search-wrap">
+    <input id="search" type="search" placeholder="検索 (名前・ユーザー名・サイト)" autocomplete="off" spellcheck="false">
+  </div>
+
+  <main id="list" class="list" aria-live="polite"></main>
+
+  <div id="empty" class="empty hidden">
+    <div class="empty-title">アカウントがありません</div>
+    <div class="empty-desc">「追加」から登録するか、QR / otpauth:// でインポートしてください。</div>
+  </div>
+
+  <footer class="bottom">
+    <button id="addBtn" class="primary">＋ 追加</button>
+    <button id="importBtn">インポート</button>
+    <button id="settingsBtn2" class="ghost">設定</button>
+  </footer>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 id="modalTitle">タイトル</h2>
+        <button id="modalClose" class="icon-btn" aria-label="閉じる">✕</button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+      <div class="modal-foot">
+        <button id="modalCancel" class="ghost">キャンセル</button>
+        <button id="modalOk" class="primary">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# 開発用ファイルは公開リポジトリに含めない
+tools/
+tests/
+.github/
+package.json
+DESIGN.md
+CONTRIBUTING.md
+CHANGELOG.md
+
+# 作業用
+node_modules/
+legacy-v1/
+dist/
+*.zip
+.DS_Store
